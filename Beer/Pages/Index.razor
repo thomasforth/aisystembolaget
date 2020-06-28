@@ -1,0 +1,46 @@
+﻿@page "/"
+    <div class="main">
+        <h1>Artificiell intelligens Systembolaget</h1>
+        <input type="text" @bind="@drinkname" placeholder="Type a drink name in here..." />
+        <button @onclick="doMachineLearning">Guess the type of alcoholic drink!</button>
+        <p style="visibility:@drinkvisible">I think that drink is <span>@drinktype_en</span>.</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p class="small">I wrote this tool in two hours. I explain why in my <a href="https://www.tomforth.co.uk/systembolaget">teaching a web server how to drink</a> blog post.</p>
+        <p class="small">Guesses are made using Sweden's Systembolaget database of 19963 drinks. You can see the training set by clicking the button below. It may take a minute to load.</p>
+        <p class="small">Thank to <a href="https://github.com/adrag239/beer-ml/tree/master/3_Regression">Alexander Dragunov</a> for the idea and the original code. Thanks to Systembolaget for the <a href="https://www.systembolaget.se/api/">free and permissively licensed data on drinks in Sweden</a>.</p>
+        <button @onclick="loadDrinks">Show me the training set.</button>      
+        <table style="visibility:@tablevisible">
+            <tr>
+            <th>Name</th>
+            <th>Type</th>
+            </tr>            
+                @foreach (Beer.Data.DrinkService.Drink drink in Drinks)
+                {
+                <tr>
+                    <td>@drink.Namn @drink.Namn2</td>
+                    <td>@drink.Varugrupp</td>
+                </tr>
+                }
+        </table>
+    </div>
+    @code {
+        string drinkname;
+        string drinktype;
+        string drinktype_en;
+        string tablevisible = "hidden";
+        string drinkvisible = "hidden";
+
+        static List<Data.DrinkService.Drink> Drinks = new List<Data.DrinkService.Drink>();
+        void loadDrinks()
+        {
+            Drinks = Beer.Data.DrinkService.GetDrinks();
+            tablevisible = "visible";
+        }
+        void doMachineLearning()
+        {
+            drinktype = Beer.Data.DrinkService.GuessDrinkType(drinkname);
+            drinktype_en = Beer.Data.DrinkService.TranslateDrinkType(drinktype);
+            drinkvisible = "visible";
+        }
+    }

@@ -1,0 +1,40 @@
+html {    
+    margin:0;
+    font-family: sans-serif;
+}
+
+body {
+    text-align: center;
+}
+
+button {
+    display:block;
+    text-align: center;
+    margin: 10px auto;
+    padding: 3px;
+}
+
+table{
+    font-size: small;
+}
+
+input {
+    padding: 5px;
+    margin: 2px;
+    width: 230px;
+}
+
+th, td, tr {
+    text-align:left;
+}
+
+.main {
+    margin: auto;
+    max-width: 100%;
+    width: 800px;
+}
+
+.small {
+    font-size: small;
+    text-align: left;
+}
